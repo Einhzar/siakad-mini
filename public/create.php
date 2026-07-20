@@ -17,6 +17,7 @@ if (empty($_SESSION['csrf_token'])) {
 
 $repo = new DosenRepository();
 $errors = [];
+$submitError = '';
 $old = ['nidn' => '', 'nama' => '', 'email' => '', 'program_studi' => '', 'status' => 'aktif'];
 
 if ($_SERVER['REQUEST_METHOD'] === 'POST') {
@@ -33,12 +34,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     $errors['nidn'] = Validator::nidn($old['nidn']);
     $errors['nama'] = Validator::required($old['nama']);
     $errors['email'] = Validator::email($old['email']);
+    $errors['program_studi'] = Validator::required($old['program_studi']);
+    $errors['status'] = Validator::required($old['status']);
 
     if (empty($errors['nama']) && mb_strlen($old['nama']) > 100) {
         $errors['nama'] = 'Nama maksimal 100 karakter.';
     }
 
-    if (empty($errors['email']) && empty($errors['nama']) && empty($errors['nidn'])) {
+    if (empty($errors['email']) && empty($errors['nama']) && empty($errors['nidn']) && empty($errors['program_studi']) && empty($errors['status'])) {
         $foto = null;
         if (isset($_FILES['foto']) && $_FILES['foto']['error'] === UPLOAD_ERR_OK) {
             $finfo = new finfo(FILEINFO_MIME_TYPE);
@@ -58,17 +61,21 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         }
 
         if (empty($errors['foto'])) {
-            $repo->create([
-                ':nidn' => $old['nidn'],
-                ':nama' => $old['nama'],
-                ':email' => $old['email'],
-                ':program_studi' => $old['program_studi'],
-                ':foto' => $foto,
-                ':status' => $old['status'],
-            ]);
-            $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
-            header('Location: index.php');
-            exit;
+            try {
+                $repo->create([
+                    ':nidn' => $old['nidn'],
+                    ':nama' => $old['nama'],
+                    ':email' => $old['email'],
+                    ':program_studi' => $old['program_studi'],
+                    ':foto' => $foto,
+                    ':status' => $old['status'],
+                ]);
+                $_SESSION['csrf_token'] = bin2hex(random_bytes(32));
+                header('Location: index.php');
+                exit;
+            } catch (Throwable $e) {
+                $submitError = 'Gagal menyimpan data: ' . $e->getMessage();
+            }
         }
     }
 }
@@ -81,6 +88,10 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 </head>
 <body>
     <h2>Tambah Dosen</h2>
+    <?php if ($submitError !== ''): ?>
+        <p style="color:red"><?= htmlspecialchars($submitError, ENT_QUOTES, 'UTF-8') ?></p>
+    <?php endif; ?>
+    <p><a href="index.php">Kembali ke daftar</a></p>
     <form method="post" enctype="multipart/form-data">
         <input type="hidden" name="csrf_token" value="<?= htmlspecialchars($_SESSION['csrf_token'], ENT_QUOTES, 'UTF-8') ?>">
         <label>NIDN: <input type="text" name="nidn" value="<?= htmlspecialchars($old['nidn'], ENT_QUOTES, 'UTF-8') ?>"></label><br>

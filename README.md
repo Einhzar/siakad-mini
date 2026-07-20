@@ -1,9 +1,6 @@
-<<<<<<< HEAD
-
-=======
 # SIAKAD Mini
 
-SIAKAD Mini adalah aplikasi web sederhana untuk memenuhi tugas UTS Pemrograman Web. Aplikasi ini mengimplementasikan alur autentikasi, manajemen data dosen, soft delete, upload foto, CSRF protection, role-based access control, relasi many-to-many antara dosen dan mata kuliah, serta fitur lanjutan seperti filter, sorting, dashboard, dan export CSV.
+SIAKAD Mini adalah aplikasi web sederhana yang dibangun untuk memenuhi tugas UTS Pemrograman Web. Aplikasi ini menyediakan fitur autentikasi, manajemen data dosen, soft delete, upload foto, proteksi CSRF, role-based access control, relasi many-to-many antara dosen dan mata kuliah, serta fitur tambahan seperti pencarian, filter, sorting, dashboard, dan export data ke CSV.
 
 ## Identitas
 - Nama: Dimas Abiyyu Febriyan
@@ -11,37 +8,39 @@ SIAKAD Mini adalah aplikasi web sederhana untuk memenuhi tugas UTS Pemrograman W
 - Mata Kuliah: Pemrograman Web
 - Tugas: UTS
 
-## Fitur yang tersedia
-- Autentikasi login/logout dengan password hash
-- Guard akses halaman yang diproteksi
-- CRUD dosen
+## Fitur utama
+- Login dan logout dengan password yang di-hash
+- Akses halaman yang diproteksi berdasarkan role
+- CRUD data dosen
 - Soft delete dan restore data dosen
-- Upload foto dengan validasi MIME type
-- CSRF token untuk form POST
-- RBAC sederhana (admin dan operator)
-- Relasi many-to-many dosen dengan mata kuliah
+- Upload foto dengan validasi tipe file
+- Proteksi CSRF untuk form POST
+- Relasi many-to-many antara dosen dan mata kuliah
 - Pencarian, filter, sort, dan pagination
 - Dashboard statistik
-- Export data dosen ke CSV
+- Export data dosen ke format CSV
 
 ## Struktur folder
-- config/ -> konfigurasi database
-- public/ -> halaman utama aplikasi
-- src/ -> kelas Auth, DosenRepository, Validator
-- uploads/ -> penyimpanan file foto dosen
-- seed.sql -> skema database dan data awal
+- config/ : konfigurasi database
+- public/ : halaman utama aplikasi
+- src/ : kelas seperti Auth, DosenRepository, dan Validator
+- uploads/ : tempat penyimpanan file foto dosen
+- seed.sql : file SQL untuk membuat skema dan data awal
 
 ## Persiapan lingkungan
-Pastikan Anda sudah menyiapkan server web dan database berikut:
+Pastikan lingkungan Anda sudah memiliki:
 - PHP 8.x
 - MySQL/MariaDB
-- Apache atau server web lain yang mendukung PHP
+- Web server seperti Apache atau Nginx
 
 ## Langkah setup
 1. Buat database dengan nama `siakad_mini`.
-2. Import file `seed.sql` ke database tersebut.
-3. Jalankan aplikasi melalui browser pada folder `public`.
-4. Jika diperlukan, sesuaikan koneksi database di file `config/database.php`.
+2. Impor file `seed.sql` ke database tersebut.
+3. Jika perlu, sesuaikan konfigurasi database di file `config/database.php`.
+4. Jalankan web server dari folder `public`, misalnya:
+   - `php -S localhost:8000 -t public`
+   lalu buka `http://localhost:8000`
+   (atau jika menggunakan Apache/XAMPP: `http://localhost/siakad-mini/public/index.php`)
 
 ## Akun demo
 - Admin
@@ -53,14 +52,13 @@ Pastikan Anda sudah menyiapkan server web dan database berikut:
 
 ## Catatan penting
 - Password disimpan dalam bentuk hash menggunakan `password_hash()`.
-- Semua form POST menggunakan CSRF token.
-- Akses fitur admin seperti tambah, hapus, dan restore diproteksi di sisi server.
-- File foto yang diupload akan disimpan di folder `uploads/` dengan nama terenkripsi.
+- Semua form POST menggunakan token CSRF.
+- Fitur admin seperti tambah, hapus, dan restore diproteksi di sisi server.
+- File foto yang diupload disimpan di folder `uploads/` dengan nama terenkripsi.
 
 ## Cara penggunaan singkat
 1. Login menggunakan akun demo.
-2. Setelah login, Anda dapat melihat daftar dosen, mencari data, dan melakukan filter/sort.
+2. Setelah login, Anda bisa melihat daftar dosen, mencari data, dan melakukan filter serta sort.
 3. Admin dapat menambah, mengedit, menghapus, dan restore data dosen.
-4. Operator dapat melihat dan mengedit data, tetapi tidak bisa mengakses aksi admin yang sensitif.
-5. Gunakan menu dashboard untuk melihat statistik dan export untuk mengunduh CSV.
->>>>>>> 0d71d54 (Initial commit)
+4. Operator dapat melihat dan mengedit data, tetapi tidak dapat mengakses aksi admin yang sensitif.
+5. Gunakan menu dashboard untuk melihat statistik, serta fitur export untuk mengunduh data CSV.

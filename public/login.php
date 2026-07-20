@@ -37,7 +37,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>Login SIAKAD Mini</title>
 </head>
 <body>
-    <h2>Login</h2>
+    <h2>Login SIAKAD Mini</h2>
+    <p>Masuk untuk mengakses data dosen.</p>
     <?php if ($error): ?>
         <p style="color:red"><?= htmlspecialchars($error, ENT_QUOTES, 'UTF-8') ?></p>
     <?php endif; ?>
