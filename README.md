@@ -1,5 +1,5 @@
 # SIAKAD Mini
-
+https://github.com/Einhzar/siakad-mini.git
 SIAKAD Mini adalah aplikasi web sederhana yang dibangun untuk memenuhi tugas UTS Pemrograman Web. Aplikasi ini menyediakan fitur autentikasi, manajemen data dosen, soft delete, upload foto, proteksi CSRF, role-based access control, relasi many-to-many antara dosen dan mata kuliah, serta fitur tambahan seperti pencarian, filter, sorting, dashboard, dan export data ke CSV.
 
 ## Identitas
