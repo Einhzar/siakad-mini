@@ -1,2 +1,1 @@
-siakad-mini
 
